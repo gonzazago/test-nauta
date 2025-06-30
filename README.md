@@ -20,6 +20,28 @@ You must design a REST API that allows:
 2. Maintaining consistent relationships between entities, avoiding duplicates or cross-referencing data between clients.
 3. Querying these entities individually and displaying the related data.
 
+## Architecture diagram
+![image](https://github.com/user-attachments/assets/19085195-d6b4-4561-9ec7-7dfff8c70ace)
+
+## Layers
+
+* Models
+* Repository
+* Usecase
+* Infra
+* Delivery
+* Consumer
+
+## Dependencies
+
+* Vert.x 4.5.16
+* Java 17
+
+### External dependencies
+
+* My Sql
+* MongoDb
+
 ### Ingest of Date
 
 #### POST /api/email
@@ -65,28 +87,6 @@ You must design a REST API that allows:
 
 ``Returns all purchase orders associated with a specific container.``
 
-## Architecture diagram
-![image](https://github.com/user-attachments/assets/19085195-d6b4-4561-9ec7-7dfff8c70ace)
-
-## Layers
-
-* Models
-* Repository
-* Usecase
-* Infra
-* Delivery
-* Consumer
-
-## Dependencies
-
-* Vert.x 4.5.16
-* Java 17
-
-### External dependencies
-
-* My Sql
-* MongoDb
-
 ## How To Use
 
 ### Running the project
@@ -96,40 +96,20 @@ Before running the project please ensure that all the dependencies are installed
 1. First step, start enviroment
 
     ```
-    make create
+    make run
     ```
 
-2.Build project
+2. Build project
 
    ```shell
-   ./gradlew  clean build
+   make build
    ```
-
 ### Running the tests
 
 In order to run the project tests you need to execute the following command:
-
-## Container Run test
-
-Move into container service and run
-
-```shell
-./gradlew  test
-```
-
-## Order Run test
-
-Move into order service and run
-
-```shell
-./gradlew test
-```
-
-## Orchestrator Run test
-Move into orchestrator service and run
-```shell
-./gradlew test
-```
+   ```shell
+   make test
+   ```
 
 ## Postman Collection
 Import this collection for test endpoint
