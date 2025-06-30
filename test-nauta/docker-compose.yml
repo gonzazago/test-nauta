@@ -1,0 +1,47 @@
+# docker-compose.yml
+#
+# Este archivo define un entorno de desarrollo local con dos servicios:
+# 1. app: Tu aplicación, que usará H2 en memoria para SQL.
+# 2. mongo-db: Una base de datos MongoDB para el servicio de contenedores.
+#
+# Para iniciar todo: docker-compose up --build
+# Para detener todo: docker-compose down
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nauta-app
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_HOST=mongo-db
+      - MONGO_PORT=27017
+    depends_on:
+      mongo-db:
+        condition: service_healthy
+    networks:
+      - nauta-network
+    tty: true
+
+  mongo-db:
+    image: mongo:6.0
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - nauta-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+volumes:
+  mongo_data:
+networks:
+  nauta-network:
+    driver: bridge
