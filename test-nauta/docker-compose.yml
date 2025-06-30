@@ -1,12 +1,3 @@
-# docker-compose.yml
-#
-# Este archivo define un entorno de desarrollo local con dos servicios:
-# 1. app: Tu aplicación, que usará H2 en memoria para SQL.
-# 2. mongo-db: Una base de datos MongoDB para el servicio de contenedores.
-#
-# Para iniciar todo: docker-compose up --build
-# Para detener todo: docker-compose down
-
 version: '3.8'
 
 services:
