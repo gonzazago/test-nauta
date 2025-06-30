@@ -18,7 +18,7 @@ class Server(private val mainAppRouter:Router) : KoinComponent {
 
         vertx.createHttpServer()
             .requestHandler(router)
-            .listen(portConfig, host) { res ->
+            .listen(portConfig, "0.0.0.0") { res ->
                 if (res.succeeded()) {
                     println("Booking Service started at http://$host:$portConfig")
                 } else {
