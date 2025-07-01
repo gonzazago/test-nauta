@@ -24,13 +24,10 @@ class IngestHandler(
     val log = LoggerFactory.getLogger(IngestHandler::class.java)
 
     fun handleEmailIngestion(ctx: RoutingContext) {
-        log.info("Central Ingester: Email ingestion request received at /api/email.")
         val rawJsonString = ctx.body().asString()
-        log.info("Central Ingester: Raw JSON Body: ${rawJsonString.take(500)}...")
 
         try {
             val emailRequestDto = objectMapper.readValue<EmailIngestRequest>(rawJsonString)
-            log.info("Central Ingester: Deserialized DTO: ${emailRequestDto.toString()}")
 
             val clientId =
                 ctx.request().getHeader("X-Client-ID") ?: throw IllegalArgumentException("Client ID header missing")
@@ -53,7 +50,6 @@ class IngestHandler(
                 }
             }
         } catch (e: Exception) {
-            log.error("Central Ingester: Error during ingestion request: ${e.message}", e)
             if (!ctx.response().ended()) {
                 ctx.response().setStatusCode(400).end("Invalid ingestion data: ${e.message}")
             }
@@ -88,7 +84,6 @@ class IngestHandler(
 
             }
             processOrderAction.processOrder(orderJsonForQueue)
-            log.info("Central Ingester: Order input DTO handed to ProcessOrderAction: ${orderInputDto.purchase}")
         }
     }
 
@@ -109,7 +104,6 @@ class IngestHandler(
             )
 
             processContainerAction.processContainer(messageDTO)
-            log.info("Central Ingester: Published container input DTO to Event Bus: ${containerInputDto.container}")
         }
     }
 }

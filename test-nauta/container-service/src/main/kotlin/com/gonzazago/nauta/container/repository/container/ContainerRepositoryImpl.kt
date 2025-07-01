@@ -17,7 +17,6 @@ class ContainerRepositoryImpl(
 
         val entity = containerMapper.toEntity(container)
         val document = containerMapper.toMongoDocument(entity)
-        LOG.info("container to save ${document.encodePrettily()}")
 
         try {
             val result = mongoClient.save(COLLECTION_NAME, document).coAwait()

@@ -12,7 +12,6 @@ class ProcessOrderAction(
 
     suspend fun processOrder(orderMessage: JsonObject) {
         val orderId = orderMessage.getString("purchase") ?: orderMessage.getString("id")
-        log.info("ProcessOrderAction: Publishing Order message to queue for ID: $orderId")
         orderPublisher.publish(ORDER_CREATION_QUEUE, orderMessage)
     }
 }

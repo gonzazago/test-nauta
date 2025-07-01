@@ -26,7 +26,6 @@ class ContainerQueueConsumer : AbstractVerticle(), KoinComponent {
         log.info("ContainerQueueConsumerVerticle starting...")
 
         vertx.eventBus().consumer(CONTAINER_QUEUE_ADDRESS) { message ->
-            log.info("ContainerQueueConsumerVerticle: Received message from Event Bus.")
             processEventBusMessage(message)
         }
             .completionHandler { res ->
@@ -46,7 +45,7 @@ class ContainerQueueConsumer : AbstractVerticle(), KoinComponent {
     private fun processEventBusMessage(message: Message<Buffer>) {
         val messageBodyWrapper: Buffer = message.body()
         val messageBodyJson = messageBodyWrapper.toJsonObject()
-        log.info("Event Bus message body (Wrapper): ${messageBodyJson.encodePrettily()}")
+
 
         GlobalScope.launch(vertx.dispatcher()) {
             try {

@@ -11,7 +11,6 @@ class ProcessContainerAction(
     private val CONTAINER_CREATION_QUEUE = "container.creation.queue"
 
     suspend fun processContainer(message: ContainerMessageDTO) {
-        log.info("ProcessContainerAction: Publishing container message to queue for ID: ${message.container}")
         containerPublisher.publish(CONTAINER_CREATION_QUEUE, message)
     }
 }

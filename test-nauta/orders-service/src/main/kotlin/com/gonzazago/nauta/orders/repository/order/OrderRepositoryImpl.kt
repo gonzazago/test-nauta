@@ -30,16 +30,15 @@ class OrderRepositoryImpl(
             return result
         } catch (e: Exception) {
             log.error("Transaction failed, rolling back: ${e.message}", e)
-            transaction.rollback().coAwait() // Hace rollback
-            throw e // Relanza la excepción
+            transaction.rollback().coAwait()
+            throw e
         } finally {
-            connection.close().coAwait() // Cierra la conexión
+            connection.close().coAwait()
         }
     }
 
 
     override suspend fun save(order: Order): Order {
-        log.info("OrderRepositoryImpl: Attempting to save order: ${order.purchase}")
 
         return withTransaction { connection, _ ->
 
@@ -59,7 +58,6 @@ class OrderRepositoryImpl(
             val invoiceEntity = mapRowToOrderEntity(firstRow)
             orderMapper.toDomainModel(invoiceEntity)
         } else {
-            log.info("OrderRepositoryImpl: No invoice found for purchase ID: $purchaseID")
             null
         }
     }
@@ -154,7 +152,6 @@ class OrderRepositoryImpl(
 
 
     internal fun mapRowToOrderEntity(row: Row): OrderEntity {
-        log.info("map row")
         return OrderEntity(
             id = row.getString(PURCHASE_ORDER_ID),
             clientId = row.getString(CLIENT_ID),

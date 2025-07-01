@@ -50,7 +50,6 @@ class OrderQueueConsumer : AbstractVerticle(), KoinComponent {
     private fun processEventBusMessage(message: Message<Buffer>) {
         val messageBodyWrapper: Buffer = message.body()
         val messageBodyJson= messageBodyWrapper.toJsonObject()
-        log.info("Event Bus message body (Wrapper): ${messageBodyJson.encodePrettily()}")
         val actualOrderJson: JsonObject = messageBodyJson.getJsonObject("map")
         GlobalScope.launch(vertx.dispatcher()) {
             try {
